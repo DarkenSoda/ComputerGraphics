@@ -1,14 +1,14 @@
 #ifndef LINEDRAWER_H
 #define LINEDRAWER_H
 
-#include "Vector2D.h"
-#include <windows.h>
+#include "Tool.h"
 
-class LineDrawer {
+class LineDrawer : public Tool {
 public:
-    static void directLine(HDC hdc, Vector2D* start, Vector2D* end, COLORREF color);
-    static void simpleDDA(HDC hdc, Vector2D* start, Vector2D* end, COLORREF color);
-    static void bresenhamLine(HDC hdc, Vector2D* start, Vector2D* end, COLORREF color);
+    static void directLine(HDC, Vector2D*, Vector2D*, COLORREF);
+    static void simpleDDA(HDC, Vector2D*, Vector2D*, COLORREF);
+    static void bresenhamLine(HDC, Vector2D*, Vector2D*, COLORREF);
+    virtual void handleMsg(HWND, UINT, WPARAM, LPARAM) override;
 };
 
 #endif

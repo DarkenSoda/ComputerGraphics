@@ -1,5 +1,4 @@
 #include "../Headers/LineDrawer.h"
-#include "../Headers/Vector2D.h"
 #include "../Headers/Utils.h"
 
 using namespace Utils;
@@ -66,3 +65,27 @@ void LineDrawer::simpleDDA(HDC hdc, Vector2D* start, Vector2D* end, COLORREF col
 void LineDrawer::bresenhamLine(HDC hdc, Vector2D* start, Vector2D* end, COLORREF color) {
 }
 
+void LineDrawer::handleMsg(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lp) {
+    switch (uMsg) {
+    case WM_PAINT:
+        PAINTSTRUCT ps;
+        BeginPaint(hwnd, &ps);
+        if (canDraw) {
+            LineDrawer::simpleDDA(ps.hdc, startPoint, endPoint, RGB(255, 0, 0));
+            canDraw = false;
+
+            delete startPoint;
+            delete endPoint;
+        }
+        EndPaint(hwnd, &ps);
+        break;
+    case WM_LBUTTONDOWN:
+        startPoint = new Vector2D(LOWORD(lp), HIWORD(lp));
+        break;
+    case WM_LBUTTONUP:
+        endPoint = new Vector2D(LOWORD(lp), HIWORD(lp));
+        canDraw = true;
+        InvalidateRect(hwnd, NULL, 0);
+        break;
+    }
+}

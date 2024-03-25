@@ -10,7 +10,10 @@
 #include <cwchar>
 #include "Headers/Vector2D.h"
 #include "Headers/LineDrawer.h"
+#include "Headers/RectDrawer.h"
+#include "Headers/Tool.h"
 
+Tool* tool = new RectDrawer;
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine, int nCmdShow) {
@@ -55,37 +58,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine,
         DispatchMessage(&msg);
     }
 
+    delete tool;
     return 0;
 }
 
-Vector2D* startPoint;
-Vector2D* endPoint;
-bool canDraw = false;
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lp) {
-    PAINTSTRUCT ps;
-    switch (uMsg) {
-    case WM_PAINT:
-        BeginPaint(hwnd, &ps);
-        if (canDraw) {
-            LineDrawer::simpleDDA(ps.hdc, startPoint, endPoint, RGB(255, 0, 0));
-            canDraw = false;
+    // startegy pattern
+    // tool type should change using a custom button that we will create.
+    tool->handleMsg(hwnd, uMsg, wParam, lp);
 
-            delete startPoint;
-            delete endPoint;
-        }
-        EndPaint(hwnd, &ps);
-        break;
-    case WM_LBUTTONDOWN:
-        startPoint = new Vector2D(LOWORD(lp), HIWORD(lp));
-        break;
-    case WM_LBUTTONUP:
-        endPoint = new Vector2D(LOWORD(lp), HIWORD(lp));
-        canDraw = true;
-        InvalidateRect(hwnd, NULL, 0);
-        break;
+    switch (uMsg) {
     case WM_DESTROY:
         PostQuitMessage(0);
         return 0;
     }
+
     return DefWindowProc(hwnd, uMsg, wParam, lp);
 }
