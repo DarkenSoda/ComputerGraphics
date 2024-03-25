@@ -8,6 +8,8 @@
 
 #include <windows.h>
 #include <cwchar>
+#include "Headers/Vector2D.h"
+#include "Headers/LineDrawer.h"
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -56,11 +58,34 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine,
     return 0;
 }
 
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+Vector2D* startPoint;
+Vector2D* endPoint;
+bool canDraw = false;
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lp) {
+    PAINTSTRUCT ps;
     switch (uMsg) {
+    case WM_PAINT:
+        BeginPaint(hwnd, &ps);
+        if (canDraw) {
+            LineDrawer::simpleDDA(ps.hdc, startPoint, endPoint, RGB(255, 0, 0));
+            canDraw = false;
+
+            delete startPoint;
+            delete endPoint;
+        }
+        EndPaint(hwnd, &ps);
+        break;
+    case WM_LBUTTONDOWN:
+        startPoint = new Vector2D(LOWORD(lp), HIWORD(lp));
+        break;
+    case WM_LBUTTONUP:
+        endPoint = new Vector2D(LOWORD(lp), HIWORD(lp));
+        canDraw = true;
+        InvalidateRect(hwnd, NULL, 0);
+        break;
     case WM_DESTROY:
         PostQuitMessage(0);
         return 0;
     }
-    return DefWindowProc(hwnd, uMsg, wParam, lParam);
+    return DefWindowProc(hwnd, uMsg, wParam, lp);
 }
