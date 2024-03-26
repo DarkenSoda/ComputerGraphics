@@ -1,5 +1,5 @@
 #include "../Headers/RectDrawer.h"
-
+#include "../Headers/FloodFiller.h"
 void RectDrawer::drawRect(HDC hdc, Vector2D* start, Vector2D* end, COLORREF outlineColor, COLORREF fillColor) {
     Vector2D p1(*start);
     Vector2D p3(*end);
@@ -12,6 +12,10 @@ void RectDrawer::drawRect(HDC hdc, Vector2D* start, Vector2D* end, COLORREF outl
     LineDrawer::simpleDDA(hdc, &p4, &p1, outlineColor);
 
     // fill with fillColor using flood fill
+    ShapeFiller* shapeFiller = new FloodFiller(); 
+    
+    Vector2D* centerPoint = new Vector2D((p1.X() + p3.X()) / 2, (p1.Y() + p3.Y()) / 2);    
+    shapeFiller->fillShape(hdc, centerPoint, outlineColor, fillColor);
 }
 
 void RectDrawer::handleMsg(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lp) {
