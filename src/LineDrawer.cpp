@@ -63,6 +63,46 @@ void LineDrawer::simpleDDA(HDC hdc, Vector2D* start, Vector2D* end, COLORREF col
 }
 
 void LineDrawer::bresenhamLine(HDC hdc, Vector2D* start, Vector2D* end, COLORREF color) {
+    int dx = end->X() - start->X();
+    int dy = end->Y() - start->Y();
+    int x = start->X();
+    int y = start->Y();
+    int d, ch1, ch2;
+    ch1 = 2 * (dx - dy);
+    SetPixel(hdc, x, y, color);
+
+    if (abs(dy) <= abs(dx)) {
+        d = dx - 2 * dy;
+        ch2 = -2 * dy;
+
+        while (x <= end->X()) {
+            if (d < 0) {
+                d += ch1;
+                y++;
+            }
+            else
+                d += ch2;
+
+            x++;
+            SetPixel(hdc, x, y, color);
+        }
+    }
+    else {
+        d = 2 * dx - dy;
+        ch2 = 2 * dx;
+
+        while (y <= end->Y()) {
+            if (d >= 0) {
+                d += ch1;
+                x++;
+            }
+            else
+                d += ch2;
+
+            y++;
+            SetPixel(hdc, x, y, color);
+        }
+    }
 }
 
 void LineDrawer::handleMsg(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lp) {
