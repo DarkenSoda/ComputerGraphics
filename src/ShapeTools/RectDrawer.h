@@ -6,7 +6,7 @@
 
 class RectDrawer : public Tool {
 public:
-    static void drawRect(HDC, Vector2D*, Vector2D*, COLORREF, COLORREF);
+    static void drawRect(HDC, Vector2D*, Vector2D*, COLORREF);
     virtual void handleMsg(HWND, UINT, WPARAM, LPARAM) override;
 };
 

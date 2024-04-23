@@ -2,7 +2,7 @@
 #define TOOL_H
 
 #include <windows.h>
-#include "Vector2D.h"
+#include "src/Utilities/Vectors/Vector2D.h"
 
 class Tool {
 protected:

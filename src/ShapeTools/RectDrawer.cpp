@@ -1,6 +1,7 @@
-#include "../Headers/RectDrawer.h"
-#include "../Headers/FloodFiller.h"
-void RectDrawer::drawRect(HDC hdc, Vector2D* start, Vector2D* end, COLORREF outlineColor, COLORREF fillColor) {
+#include "RectDrawer.h"
+#include "src/FillingAlgorithms/FloodFiller.h"
+
+void RectDrawer::drawRect(HDC hdc, Vector2D* start, Vector2D* end, COLORREF outlineColor) {
     Vector2D p1(*start);
     Vector2D p3(*end);
     Vector2D p2(p1.X(), p3.Y());
@@ -10,12 +11,6 @@ void RectDrawer::drawRect(HDC hdc, Vector2D* start, Vector2D* end, COLORREF outl
     LineDrawer::simpleDDA(hdc, &p2, &p3, outlineColor);
     LineDrawer::simpleDDA(hdc, &p3, &p4, outlineColor);
     LineDrawer::simpleDDA(hdc, &p4, &p1, outlineColor);
-
-    // fill with fillColor using flood fill
-    ShapeFiller* shapeFiller = new FloodFiller(); 
-    
-    Vector2D* centerPoint = new Vector2D((p1.X() + p3.X()) / 2, (p1.Y() + p3.Y()) / 2);    
-    shapeFiller->fillShape(hdc, centerPoint, outlineColor, fillColor);
 }
 
 void RectDrawer::handleMsg(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lp) {
@@ -24,11 +19,17 @@ void RectDrawer::handleMsg(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lp) {
         PAINTSTRUCT ps;
         BeginPaint(hwnd, &ps);
         if (canDraw) {
-            RectDrawer::drawRect(ps.hdc, startPoint, endPoint, RGB(255, 0, 0), RGB(0, 0, 255));
-            canDraw = false;
+            RectDrawer::drawRect(ps.hdc, startPoint, endPoint, RGB(255, 0, 0));
+
+            // fill with fillColor using flood fill
+            Vector2D centerPoint((startPoint->X() + endPoint->X()) / 2, (startPoint->Y() + endPoint->Y()) / 2);
+            FloodFiller filler;
+            filler.fillShape(ps.hdc, &centerPoint, RGB(255, 0, 0), RGB(0, 0, 255));
 
             delete startPoint;
             delete endPoint;
+
+            canDraw = false;
         }
         EndPaint(hwnd, &ps);
         break;

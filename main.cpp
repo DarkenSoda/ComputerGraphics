@@ -8,12 +8,14 @@
 
 #include <windows.h>
 #include <cwchar>
-#include "Headers/Vector2D.h"
-#include "Headers/LineDrawer.h"
-#include "Headers/RectDrawer.h"
-#include "Headers/Tool.h"
+#include "src/Utilities/Vectors/Vector2D.h"
+#include "src/ShapeTools/LineDrawer.h"
+#include "src/ShapeTools/RectDrawer.h"
+#include "src/ShapeTools/CircleDrawer.h"
+#include "src/ShapeTools/EllipseDrawer.h"
+#include "src/ShapeTools/Tool.h"
 
-Tool* tool = new RectDrawer;
+Tool* tool = new CircleDrawer;
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine, int nCmdShow) {

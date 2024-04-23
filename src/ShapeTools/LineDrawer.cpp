@@ -1,5 +1,5 @@
-#include "../Headers/LineDrawer.h"
-#include "../Headers/Utils.h"
+#include "LineDrawer.h"
+#include "src/Utilities/Utils.h"
 
 using namespace Utils;
 

@@ -1,7 +1,8 @@
 #ifndef SHAPEFILLER_H
 #define SHAPEFILLER_H
 
-#include "Tool.h"
+#include <windows.h>
+#include "src/Utilities/Vectors/Vector2D.h"
 
 class ShapeFiller {
 public:

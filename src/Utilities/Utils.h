@@ -1,7 +1,7 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#include "Vector2D.h"
+#include "Vectors/Vector2D.h"
 
 namespace Utils {
     void swap(int&, int&);
