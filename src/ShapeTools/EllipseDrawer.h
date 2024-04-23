@@ -5,7 +5,7 @@
 
 class EllipseDrawer : public Tool {
 private:
-    bool drawCircle = true;
+    bool drawCircle = false;
 public:
     static void Draw4Points(HDC, Vector2D*, int, int, COLORREF);
     static void Cartesian(HDC, Vector2D*, int, int, COLORREF);

@@ -15,7 +15,7 @@
 #include "src/ShapeTools/EllipseDrawer.h"
 #include "src/ShapeTools/Tool.h"
 
-Tool* tool = new CircleDrawer;
+Tool* tool = new EllipseDrawer;
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine, int nCmdShow) {

@@ -101,5 +101,15 @@ void EllipseDrawer::handleMsg(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lp) {
         canDraw = true;
         InvalidateRect(hwnd, NULL, 0);
         break;
+    case WM_KEYDOWN:
+        if (wParam == VK_SHIFT) {
+            drawCircle = true;
+        }
+        break;
+    case WM_KEYUP:
+        if (wParam == VK_SHIFT) {
+            drawCircle = false;
+        }
+        break;
     }
 }
