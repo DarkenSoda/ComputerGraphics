@@ -64,12 +64,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine,
     return 0;
 }
 
+#include<iostream>
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lp) {
     // startegy pattern
     // tool type should change using a custom button that we will create.
     tool->handleMsg(hwnd, uMsg, wParam, lp);
 
     switch (uMsg) {
+    case WM_KEYDOWN:
+        if (wParam == VK_F1) {
+            // clear window
+        }
+        break;
     case WM_DESTROY:
         PostQuitMessage(0);
         return 0;

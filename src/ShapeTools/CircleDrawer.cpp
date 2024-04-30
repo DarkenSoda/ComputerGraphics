@@ -39,6 +39,14 @@ void CircleDrawer::DrawCircle(HDC hdc, Vector2D* start, Vector2D* end, COLORREF 
     RectDrawer::drawRect(hdc, start, end, RGB(255, 0, 0));
     CircleDrawer::Cartesian(hdc, &centerPoint, r1, color);
 
+    Vector2D eye1(centerPoint.X() - r1 / 2, centerPoint.Y() - r1 / 2);
+    Vector2D eye2(centerPoint.X() + r1 / 2, eye1.Y());
+    Vector2D mouth(centerPoint.X(), centerPoint.Y() + r1 / 2);
+
+    CircleDrawer::Cartesian(hdc, &eye1, r1 / 5, color);
+    CircleDrawer::Cartesian(hdc, &eye2, r1 / 5, color);
+    CircleDrawer::Cartesian(hdc, &mouth, r1 / 3, color);
+
     // fill with fillColor using flood fill
     // FloodFiller fill;
     // fill.fillShape(ps.hdc, &centerPoint, RGB(0, 0, 255), RGB(0, 255, 0));
