@@ -65,20 +65,30 @@ void LineDrawer::simpleDDA(HDC hdc, Vector2D* start, Vector2D* end, COLORREF col
 void LineDrawer::bresenhamLine(HDC hdc, Vector2D* start, Vector2D* end, COLORREF color) {
     int dx = end->X() - start->X();
     int dy = end->Y() - start->Y();
-    int x = start->X();
-    int y = start->Y();
+    int x, y;
     int d, ch1, ch2;
-    ch1 = 2 * (dx - dy);
+
     SetPixel(hdc, x, y, color);
 
     if (abs(dy) <= abs(dx)) {
+        if (dx < 0) {
+            swap(*start, *end);
+        }
+
+        dx = abs(dx);
+        dy = abs(dy);
+
+        x = start->X();
+        y = start->Y();
+
         d = dx - 2 * dy;
+        ch1 = 2 * (dx - dy);
         ch2 = -2 * dy;
 
         while (x <= end->X()) {
             if (d < 0) {
                 d += ch1;
-                y++;
+                y += (start->Y() < end->Y() ? 1 : -1);
             }
             else
                 d += ch2;
@@ -88,13 +98,24 @@ void LineDrawer::bresenhamLine(HDC hdc, Vector2D* start, Vector2D* end, COLORREF
         }
     }
     else {
+        if (dy < 0) {
+            swap(*start, *end);
+        }
+
+        dx = abs(dx);
+        dy = abs(dy);
+
+        x = start->X();
+        y = start->Y();
+
         d = 2 * dx - dy;
+        ch1 = 2 * (dx - dy);
         ch2 = 2 * dx;
 
         while (y <= end->Y()) {
-            if (d >= 0) {
+            if (d > 0) {
                 d += ch1;
-                x++;
+                x += (start->X() < end->X() ? 1 : -1);
             }
             else
                 d += ch2;
@@ -111,7 +132,7 @@ void LineDrawer::handleMsg(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lp) {
         PAINTSTRUCT ps;
         BeginPaint(hwnd, &ps);
         if (canDraw) {
-            LineDrawer::simpleDDA(ps.hdc, startPoint, endPoint, RGB(255, 0, 0));
+            LineDrawer::bresenhamLine(ps.hdc, startPoint, endPoint, RGB(255, 0, 0));
             canDraw = false;
 
             delete startPoint;
