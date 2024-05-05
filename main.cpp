@@ -14,8 +14,9 @@
 #include "src/ShapeTools/CircleDrawer.h"
 #include "src/ShapeTools/EllipseDrawer.h"
 #include "src/ShapeTools/Tool.h"
+#include "src/ShapeTools/PolygonTool.h"
 
-Tool* tool = new EllipseDrawer;
+Tool* tool = new PolygonTool;
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine, int nCmdShow) {
@@ -74,6 +75,13 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lp) {
     case WM_KEYDOWN:
         if (wParam == VK_F1) {
             // clear window
+        }
+        // erase window with ESCAPE Key
+        // get window rect
+        else if (wParam == VK_ESCAPE) {
+            RECT rect;
+            GetClientRect(hwnd, &rect);
+            FillRect(GetDC(hwnd), &rect, (HBRUSH)(COLOR_WINDOW + 1));
         }
         break;
     case WM_DESTROY:
