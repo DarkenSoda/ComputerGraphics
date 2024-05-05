@@ -67,25 +67,20 @@ void LineDrawer::bresenhamLine(HDC hdc, Vector2D* start, Vector2D* end, COLORREF
     int dy = end->Y() - start->Y();
     int x, y;
     int d, ch1, ch2;
+    int dxAbs = abs(dx);
+    int dyAbs = abs(dy);
 
     SetPixel(hdc, x, y, color);
 
-    if (abs(dy) <= abs(dx)) {
-        if (dx < 0) {
-            swap(*start, *end);
-        }
-
-        dx = abs(dx);
-        dy = abs(dy);
-
+    if (dyAbs <= dxAbs) {
         x = start->X();
         y = start->Y();
 
-        d = dx - 2 * dy;
-        ch1 = 2 * (dx - dy);
-        ch2 = -2 * dy;
+        d = dxAbs - 2 * dyAbs;
+        ch1 = 2 * (dxAbs - dyAbs);
+        ch2 = -2 * dyAbs;
 
-        while (x <= end->X()) {
+        while (x != end->X()) {
             if (d < 0) {
                 d += ch1;
                 y += (start->Y() < end->Y() ? 1 : -1);
@@ -93,26 +88,19 @@ void LineDrawer::bresenhamLine(HDC hdc, Vector2D* start, Vector2D* end, COLORREF
             else
                 d += ch2;
 
-            x++;
+            x += (dx > 0 ? 1 : -1);
             SetPixel(hdc, x, y, color);
         }
     }
     else {
-        if (dy < 0) {
-            swap(*start, *end);
-        }
-
-        dx = abs(dx);
-        dy = abs(dy);
-
         x = start->X();
         y = start->Y();
 
-        d = 2 * dx - dy;
-        ch1 = 2 * (dx - dy);
-        ch2 = 2 * dx;
+        d = 2 * dxAbs - dyAbs;
+        ch1 = 2 * (dxAbs - dyAbs);
+        ch2 = 2 * dxAbs;
 
-        while (y <= end->Y()) {
+        while (y != end->Y()) {
             if (d > 0) {
                 d += ch1;
                 x += (start->X() < end->X() ? 1 : -1);
@@ -120,7 +108,7 @@ void LineDrawer::bresenhamLine(HDC hdc, Vector2D* start, Vector2D* end, COLORREF
             else
                 d += ch2;
 
-            y++;
+            y += (dy > 0 ? 1 : -1);
             SetPixel(hdc, x, y, color);
         }
     }
