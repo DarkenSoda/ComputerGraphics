@@ -2,11 +2,34 @@
 #define POLYGONTOOL_H
 
 #include "Tool.h"
-#include "vector"
 #include "LineDrawer.h"
+#include "src/Utilities/Utils.h"
+#include <vector>
+#include <algorithm>
+#include <math.h>
 
 
-typedef std::vector<std::set<EdgeData>> EdgeTable;
+class EdgeData {
+public:
+    double xMin;
+    double yMax;
+    double slope;
+    EdgeData(Vector2D& V1,Vector2D& V2) {
+        if (V1.Y() > V2.Y()) {
+            Utils::swap(V1, V2);
+        }
+        xMin = V1.X();
+        yMax = V2.Y();
+        slope = (double)(V2.X() - V1.X()) / (V2.Y() - V1.Y());
+    }
+    bool operator<(const EdgeData& other) const{
+        return xMin < other.xMin;
+    }
+};
+
+typedef std::vector<EdgeData> EdgeList;
+typedef std::vector<EdgeList> EdgeTable;
+
 class PolygonTool : public Tool {
 private:
     std::vector<Vector2D> pointList;
@@ -20,15 +43,6 @@ public:
     virtual void handleMsg(HWND, UINT, WPARAM, LPARAM) override;
 };
 
-class EdgeData {
-public:
-    int xMin;
-    int yMax;
-    double slope;
-    EdgeData(int xMin, int yMax, double slope) : xMin(xMin), yMax(yMax), slope(slope) {}
-    int operator<(const EdgeData& other) {
-        return xMin < other.xMin;
-    }
-};
+
 
 #endif
