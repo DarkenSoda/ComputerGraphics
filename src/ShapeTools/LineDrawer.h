@@ -2,6 +2,7 @@
 #define LINEDRAWER_H
 
 #include "Tool.h"
+#include "src/ClippingAlgorithms/LineClipper.h"
 
 class LineDrawer : public Tool {
 public:

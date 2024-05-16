@@ -6,7 +6,7 @@
 
 class ShapeFiller {
 public:
-    virtual void fillShape(HDC hdc, Vector2D* start, COLORREF borderColor, COLORREF targetColor) = 0;
+    virtual void fillShape(HDC hdc, Vector2D* start, COLORREF targetColor, COLORREF borderColor, int size) = 0;
 };
 
 #endif

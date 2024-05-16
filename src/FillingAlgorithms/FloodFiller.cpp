@@ -1,7 +1,7 @@
 #include "FloodFiller.h"
 #include <queue>
 
-void FloodFiller::fillShape(HDC hdc, Vector2D* start, COLORREF borderColor, COLORREF targetColor) {
+void FloodFiller::fillShape(HDC hdc, Vector2D* start, COLORREF borderColor, COLORREF targetColor, int size) {
     std::queue<Vector2D*> queue;
     queue.push(start);
     while (!queue.empty()) {

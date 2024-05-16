@@ -16,7 +16,7 @@
 #include "src/ShapeTools/Tool.h"
 #include "src/ShapeTools/PolygonTool.h"
 
-Tool* tool = new PolygonTool;
+Tool* tool = new LineDrawer();
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine, int nCmdShow) {

@@ -24,7 +24,7 @@ void RectDrawer::handleMsg(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lp) {
             // fill with fillColor using flood fill
             Vector2D centerPoint((startPoint->X() + endPoint->X()) / 2, (startPoint->Y() + endPoint->Y()) / 2);
             FloodFiller filler;
-            filler.fillShape(ps.hdc, &centerPoint, RGB(255, 0, 0), RGB(0, 0, 255));
+            filler.fillShape(ps.hdc, &centerPoint, RGB(255, 0, 0), RGB(0, 0, 255), 0);
 
             delete startPoint;
             delete endPoint;

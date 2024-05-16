@@ -120,7 +120,12 @@ void LineDrawer::handleMsg(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lp) {
         PAINTSTRUCT ps;
         BeginPaint(hwnd, &ps);
         if (canDraw) {
-            LineDrawer::bresenhamLine(ps.hdc, startPoint, endPoint, RGB(255, 0, 0));
+            LineClipper lineClipper;
+            Line* line = new Line(startPoint, endPoint);
+            ScreenBoarder boarder(100,500,100,500);
+            line = lineClipper.Clip(line,boarder);
+            if (line != nullptr)
+                LineDrawer::simpleDDA(ps.hdc, line->Start(), line->End(), RGB(255, 0, 0));
             canDraw = false;
 
             delete startPoint;
