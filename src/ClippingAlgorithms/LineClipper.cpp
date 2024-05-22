@@ -18,7 +18,7 @@ Line* LineClipper::Clip(Line* line , ScreenBoarder screenBoarder)
         else {
             if (outCodeStart.All) {
                 if (outCodeStart.Left == 1) {
-                line->SetStart(line->VerticalIntersect(screenBoarder.XLeft));
+                    line->SetStart(line->VerticalIntersect(screenBoarder.XLeft));
                 }
                 else if (outCodeStart.Right == 1) {
                     line->SetStart(line->VerticalIntersect(screenBoarder.XRight));
@@ -32,7 +32,7 @@ Line* LineClipper::Clip(Line* line , ScreenBoarder screenBoarder)
             }
             else {
                 if (outCodeEnd.Left == 1) {
-                line->SetEnd(line->VerticalIntersect(screenBoarder.XLeft));
+                    line->SetEnd(line->VerticalIntersect(screenBoarder.XLeft));
                 }
                 else if (outCodeEnd.Right == 1) {
                     line->SetEnd(line->VerticalIntersect(screenBoarder.XRight));

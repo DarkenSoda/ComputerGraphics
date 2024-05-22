@@ -15,7 +15,4 @@ add_executable(ComputerGraphics
     ${SRCS}
 )
 
-message(STATUS "After exe: ${ComputerGraphics}")
-
-
 include(CPack)
