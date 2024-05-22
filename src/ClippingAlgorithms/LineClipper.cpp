@@ -45,6 +45,9 @@ Line* LineClipper::Clip(Line* line , ScreenBoarder screenBoarder)
                 }
             }
         }
+        if (line->Start() == nullptr || line->End() == nullptr) {
+            return nullptr;
+        }
         outCodeStart = ComputeOutCode(line->Start(), screenBoarder);
         outCodeEnd = ComputeOutCode(line->End(), screenBoarder);
     }

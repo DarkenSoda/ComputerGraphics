@@ -61,23 +61,35 @@ Vector2D *Line::Intersect(Line *line)
 Vector2D *Line::VerticalIntersect(int X)
 {
     if (this->start->X() == this->end->X()) {
-        return nullptr;
+        return nullptr; 
     }
-    float slope = (this->end->Y() - this->start->Y()) / (this->end->X() - this->start->X());
-    float c = this->start->Y() - slope * this->start->X();
+    float deltaY = this->end->Y() - this->start->Y();
+    float deltaX = this->end->X() - this->start->X();
     
+    float slope = deltaY / deltaX;
+    float c = this->start->Y() - slope * this->start->X();
+
     float y = slope * X + c;
+    
     return new Vector2D(X, y);
 }
+
 
 Vector2D *Line::HorizontalIntersect(int Y)
 {
     if (this->start->Y() == this->end->Y()) {
-        return nullptr;
+        return nullptr; 
     }
-    float slope = (this->end->Y() - this->start->Y()) / (this->end->X() - this->start->X());
-    float c = this->start->Y() - slope * this->start->X();
+    float deltaY = this->end->Y() - this->start->Y();
+    float deltaX = this->end->X() - this->start->X();
     
+    if (deltaX == 0) {
+        return new Vector2D(this->start->X(), Y);
+    }
+
+    float slope = deltaY / deltaX;
+    float c = this->start->Y() - slope * this->start->X();
     float x = (Y - c) / slope;
+    
     return new Vector2D(x, Y);
 }
