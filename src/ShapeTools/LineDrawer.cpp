@@ -1,5 +1,6 @@
 #include "LineDrawer.h"
 #include "src/Utilities/Utils.h"
+#include "RectDrawer.h"
 
 using namespace Utils;
 
@@ -119,10 +120,12 @@ void LineDrawer::handleMsg(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lp) {
     case WM_PAINT:
         PAINTSTRUCT ps;
         BeginPaint(hwnd, &ps);
+        RectDrawer::drawRect(ps.hdc, new Vector2D(100,100), new Vector2D(700, 500), RGB(0, 0, 255));
         if (canDraw) {
             LineClipper lineClipper;
             Line* line = new Line(startPoint, endPoint);
-            ScreenBoarder boarder(100, 500, 100, 500);
+            //To be removed. {
+            ScreenBoarder boarder(100, 700, 100, 500);
             line = lineClipper.Clip(line, boarder);
             if (line != nullptr)
                 LineDrawer::bresenhamLine(ps.hdc, line->Start(), line->End(), RGB(255, 0, 0));
@@ -130,6 +133,7 @@ void LineDrawer::handleMsg(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lp) {
 
             delete startPoint;
             delete endPoint;
+            //}
         }
         EndPaint(hwnd, &ps);
         break;

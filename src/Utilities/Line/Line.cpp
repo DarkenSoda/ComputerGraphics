@@ -60,12 +60,10 @@ Vector2D *Line::Intersect(Line *line)
 
 Vector2D *Line::VerticalIntersect(int X)
 {
-    if (this->start->X() == this->end->X()) {
-        return nullptr; 
-    }
     float deltaY = this->end->Y() - this->start->Y();
     float deltaX = this->end->X() - this->start->X();
     
+
     float slope = deltaY / deltaX;
     float c = this->start->Y() - slope * this->start->X();
 
